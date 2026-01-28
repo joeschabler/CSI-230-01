@@ -1,4 +1,4 @@
-﻿$PSScriptRoot = "C:\Users\champuser\Desktop\GitHub Push\Week 3"
+﻿$PSScriptRoot = "C:\Users\champuser\Desktop\GitHub Push\Week3"
 . (Join-Path $PSScriptRoot Event-Logs.ps1)
 
 clear
