@@ -38,7 +38,7 @@ return $loginoutsTable
 ****************************** #>
 function getFailedLogins($timeBack){
   
-  $failedlogins = Get-EventLog security -After (Get-Date).AddDays("-"+"$timeBack") | Where { $_.InstanceID -eq "4625" }
+  $failedlogins = Get-EventLog security -After (Get-Date).AddDays(-[double]$timeBack) | Where { $_.InstanceID -eq "4625" }
 
   $failedloginsTable = @()
   for($i=0; $i -lt $failedlogins.Count; $i++){
@@ -64,3 +64,19 @@ function getFailedLogins($timeBack){
 
     return $failedloginsTable
 } # End of function getFailedLogins
+
+function getRiskyUsers() {
+    $days = Read-Host -Prompt "Enter the number of days to check"
+
+        $allFailed = getFailedLogins $days
+
+        $atRiskUsers = $allFailed | Group-Object User | Where-Object { $_.Count -gt 10 }
+
+        if ($atRiskUsers.Count -eq 0) {
+            Write-Host "No at-risk users found (0 users with > 10 failed logins)." | Out-String
+        } else {
+            Write-Host "At-Risk Users (More than 10 failed logins):" | Out-String
+            $userColumn = @{ Name = "User"; Expression = { $_.Name } } # Renames Name Header as "User"
+            $atRiskUsers | Select-Object $userColumn, Count | Format-Table
+        }
+}
