@@ -1,6 +1,6 @@
 function SendAlertEmail($Body){
-    $From = "joseph.schabler@mymail.champlain.edu"
-    $To = "joseph.schabler@mymail.champlain.edu"
+    $From = ""
+    $To = ""
     $Subject = "Suspicious Activity"
 
     $Password = Get-Content "C:\Users\champuser\Desktop\GitHub Push\Week7\file.txt" | ConvertTo-SecureString
